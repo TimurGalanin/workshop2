@@ -3,18 +3,27 @@
   hosts: all
   #become: yes
   gather_facts: yes
-  tasks:
-  - name: nginx-docker
-    debug:
-      msg: 'Hello'
-  - name: Get OS type
-    debug:
-      var: ansible_facts.distribution
-  - name: Update repositories cache and install  package
-    apt:
-      name: '{{ item }}'
-      update_cache: yes
-    with_items: '{{ package_list }}'
+  roles:
+    - name: Install consul agents
+      role: nginx
+
+  # tasks:
+  # - name: nginx-docker
+  #   debug:
+  #     msg: 'Hello'
+  # - name: Get OS type
+  #   debug:
+  #     var: ansible_facts.distribution
+  # - name: Update repositories cache and install  package
+  #   apt:
+  #     name: '{{ item }}'
+  #     update_cache: yes
+  #   with_items: '{{ package_list }}'
+  #
+  # - name: Create Dir
+  #   file:
+  #     path: '~/ansible'
+  #     state: directory
 
 
 #    when: ansible_facts.distribution=='Ubuntu'
