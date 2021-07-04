@@ -3,15 +3,29 @@
   hosts: all
   #become: yes
   gather_facts: yes
-  roles:
-    - name: Install consul agents
-      role: nodejs
+  tasks:
+  - name: Git checkout 
+    file: 
+      path: /opt/back-front-example
+      state: directory
+ 
+  - name: Git checkout
+    git:
+      repo: https://github.com/RoboInterativo/back-front-example
+      dest: /opt/back-front-example
+
+
+  - name: co 
+    shell: '. /root/.profile &&  cd /opt/back-front-example/front2 && npm install && npm run build'
+#    remote_src: yes
+#  roles:
+#    - name: Install consul agents
+#      role: nodejs
 
   # tasks:
   # - name: nginx-docker
   #   debug:
-  #     msg: 'Hello'
-  # - name: Get OS type
+  #     msg: 'Hello'  # - name: Get OS type
   #   debug:
   #     var: ansible_facts.distribution
   # - name: Update repositories cache and install  package
@@ -29,4 +43,5 @@
 #    when: ansible_facts.distribution=='Ubuntu'
   # - name: Print all available facts
   #   ansible.builtin.debug:
+
   #     var: ansible_facts
