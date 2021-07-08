@@ -43,6 +43,8 @@ pipeline {
         stage('Stage 2') {
             steps {
               sh "echo ${WORKSPACE}"
+              def ENV="dev"
+              ansiblePlaybook extras: "-vv --extra-vars \" CODE_REPO=${GIT_REPO} BRANCH=master  ENV=dev inventory_dir=\"${WORKSPACE}/ansible/inventories/${ENV}/\"\" ", installation: 'ansible25', inventory: "ansible/inventories/${ENV}/hosts", playbook: "ansible/playbooks/test.yml"
                 }
              }
     }
