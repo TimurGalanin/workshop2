@@ -37,13 +37,14 @@ pipeline {
                 sh 'export PATH=$PATH:`pwd`/node-v14.17.2-linux-x64/bin && cd ${WORKSPACE}/code/front2 && ls -li && node -v &&  npm install && npm run build'
                 sh 'pwd && cd code/front2/dist  &&  zip rel.zip index.html main.js'
                      //userRemoteConfigs: [[credentialsId: 'git-ssh'
+
+            }
+        }
         stage('Stage 2') {
             steps {
               sh "echo ${WORKSPACE}"
                 }
              }
-            }
-        }
     }
     post {
         success {
