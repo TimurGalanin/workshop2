@@ -1,0 +1,55 @@
+---
+- name: Install
+  hosts: all
+  #become: yes
+  gather_facts: yes
+
+  tasks:
+  - name: python
+    apt:
+      name: '{{ item }}'
+      update_cache: yes
+    with_items:
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+  - name: pipp
+    pip:
+      name: '{{ item }}'
+      executable: pip3
+    with_items:
+      - setuptools==39.1.0
+  - file:
+      path: /opt/back-front-example/back2/venv
+      state: absent
+  - name: sh
+    shell: virtualenv -p python3 /opt/back-front-example/back2/venv
+
+  - name: pip
+    pip:
+      name: '{{ item }}'
+      virtualenv: /opt/back-front-example/back2/venv
+      virtualenv_site_packages: yes
+    with_items:
+      - aiohttp
+      - aiohttp_jinja2
+      - jinja2
+  # - name: Get OS types
+  #   debug:
+  #     var: ansible_facts.distribution
+  # - name: Update repositories cache and install  package
+  #   apt:
+  #     name: '{{ item }}'
+  #     update_cache: yes
+  #   with_items: '{{ package_list }}'
+  #
+  # - name: Create Dir
+  #   file:
+  #     path: '~/ansible'
+  #     state: directory
+
+
+#    when: ansible_facts.distribution=='Ubuntu'
+  # - name: Print all available facts
+  #   ansible.builtin.debug:
+  #     var: ansible_facts
