@@ -24,7 +24,7 @@
       state: absent
   - name: sh
     shell: virtualenv -p python3 /opt/back-front-example/back2/venv
-
+         - source /opt/back/venv/bin/activate && pip install - aiohttp - aiohttp_jinja2 - jinja2
   - name: pip
     pip:
       name: '{{ item }}'
@@ -34,6 +34,14 @@
       - aiohttp
       - aiohttp_jinja2
       - jinja2
+
+
+
+
+
+
+
+
   # - name: Get OS types
   #   debug:
   #     var: ansible_facts.distribution
