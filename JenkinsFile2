@@ -3,7 +3,7 @@ pipeline {
        parameters {
                string(
 			name: 'CODE_REPO',
-			defaultValue: 'git@github.com:RoboInterativo/back-front-example.git',
+			defaultValue: 'git@github.com:TimurGalanin/NewJavase.git',
 			description: 'CODE_REPO'
 		)
 		 string(
@@ -45,9 +45,9 @@ pipeline {
               // }
               //def scannerHome = tool 'SonarScanner'
               // withSonarQubeEnv() {
-                 sh 'echo sonar.projectKey=robo >> ${WORKSPACE}/code/sonar-project.properties'
+                 sh 'echo sonar.projectKey=Test >> ${WORKSPACE}/code/sonar-project.properties'
                  sh 'echo sonar.host.url=http://64.227.65.82:9999/sonarqube >> ${WORKSPACE}/code/sonar-project.properties'
-                 def TOKEN='dd0d20c7d273d7b957a50b8b3152e6e8c3271377'
+                 def TOKEN='bdde64ecf8573d5e6dd69119ef9089ffd255b293'
                  sh "cd ${WORKSPACE}/code/ && ${WORKSPACE}/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner -Dsonar.login=${TOKEN}"
               // // }
             }
