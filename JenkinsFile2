@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+       parameters {
+               string(
+			name: 'CODE_REPO',
+			defaultValue: 'git@github.com:RoboInterativo/back-front-example.git',
+			description: 'CODE_REPO'
+		)
+		 string(
+			name: 'BRANCH',
+			defaultValue: 'main',
+			description: 'BRANCH'
+		)
+
+
+    }
+
+
+
+    stages {
+        stage('Stage 1') {
+            steps {
+              script {
+              sh 'rm -rf ${WORKSPACE}/code'
+              checkout([$class: 'GitSCM', branches: [[name: '${BRANCH}']],
+              doGenerateSubmoduleConfigurations: false,
+              extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'code/']],
+              gitTool: 'Default',
+              submoduleCfg: [],  userRemoteConfigs: [[credentialsId: 'ssh-git', url: '${CODE_REPO}']]])
+              sh 'rm -rf ${WORKSPACE}/sonar-scanner-4.6.2.2472-linux'
+              sh 'wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip && ls -li'
+              sh 'unzip sonar-scanner-cli-4.6.2.2472-linux.zip'
+             //sonar-scanner-4.6.2.2472-linux/bin
+            }
+          }
+            }
+            stage('SonarQube Analysis') {
+              steps {
+                script {
+              // scannerHome = tool 'sonarqube';
+              // withSonarQubeEnv() {
+              //   sh 'SONAR HOME ${scannerHome}'
+              //   // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
+              //    sh "cd ${WORKSPACE}/code/ && ${scannerHome}/sonar-scanner"
+              // }
+              //def scannerHome = tool 'SonarScanner'
+              // withSonarQubeEnv() {
+                 sh 'echo sonar.projectKey=robo >> ${WORKSPACE}/code/sonar-project.properties'
+                 sh 'echo sonar.host.url=http://64.227.65.82:9999/sonarqube >> ${WORKSPACE}/code/sonar-project.properties'
+                 def TOKEN='dd0d20c7d273d7b957a50b8b3152e6e8c3271377'
+                 sh "cd ${WORKSPACE}/code/ && ${WORKSPACE}/sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner -Dsonar.login=${TOKEN}"
+              // // }
+            }
+          }
+        }
+
+        // stage('Stage 2') {
+        //     steps {
+        //     }
+        //   }
+    }
+    post {
+        success {
+
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'code/front2/dist/*.zip', fingerprint: true
+
+        }
+      }
+}
