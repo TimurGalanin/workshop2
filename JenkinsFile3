@@ -37,7 +37,7 @@ pipeline {
             stage('SonarQube Analysis') {
               steps {
                 script {
-                  ansiblePlaybook extras: "-vv --extra-vars \" ENV=dev inventory_dir=\"${WORKSPACE}/ansible/inventories/dev/\"\" -u root ", installation: 'ansible25', inventory: "ansible/inventories/dev/inventory", playbook: "ansible/playbooks/test5.yml"
+                  ansiblePlaybook extras: "-vv --extra-vars \" ENV=dev inventory_dir=\"${WORKSPACE}/ansible/inventories/dev/\"\" -u root ", installation: 'ansible25', inventory: "ansible/inventories/dev/inventory", playbook: "ansible/playbooks/test2.yml"
               // scannerHome = tool 'sonarqube';
               // withSonarQubeEnv() {
               //   sh 'SONAR HOME ${scannerHome}'

@@ -8,7 +8,7 @@
   - name: nginx-docker
     debug:
       msg: 'Hello'
-  - name: Get OS type
+  #- name: Get OS type
   #   debug:
   #     var: ansible_facts.distribution
   # - name: Update repositories cache and install  package
